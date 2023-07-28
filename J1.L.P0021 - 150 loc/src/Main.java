@@ -7,7 +7,6 @@ public class Main {
         DataValidation dv = new DataValidation();
         Scanner sc = new Scanner(System.in);
         Management mn = new Management();
-        ArrayList<StudentSchedule> sList = new ArrayList<>();
         // loop until user end program
         while(true){
             //1. display the menu
@@ -17,16 +16,16 @@ public class Main {
             //3. perform functions based on the choice entered
             switch(choice){
                 case 1: // create student info
-                    mn.create(sList);
+                    mn.create();
                     break;
                 case 2: // find and sort
-                    mn.findSort(sList);
+                    mn.findSort();
                     break;
                 case 3: // update/delete
-                    mn.updateDelete(sList);
+                    mn.updateDelete();
                     break;
                 case 4: //report
-                    mn.report(sList);
+                    mn.report();
                     break;
                 case 5: // exit
                     System.exit(0);
