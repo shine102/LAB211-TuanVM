@@ -1,18 +1,13 @@
-
-import java.util.ArrayList;
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
         DataValidation dv = new DataValidation();
-        Scanner sc = new Scanner(System.in);
         Management mn = new Management();
         // loop until user end program
         while(true){
             //1. display the menu
             Display.displayMenu();
             //2. ask user enter the choice to continue
-            int choice = dv.validateInt(sc, 1, 5, "Please enter your choice: ");
+            int choice = dv.validateInt(1, 5, "Please enter your choice: ");
             //3. perform functions based on the choice entered
             switch(choice){
                 case 1: // create student info

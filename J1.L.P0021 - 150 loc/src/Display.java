@@ -17,13 +17,20 @@ public class Display {
         System.out.format("%-6s | %-6s | %-15s | %-10s | %-10s\n", index , s.getID(), s.getStudentName(), s.getSemester(), s.getCourse());
     }
     
-    public static void displayAll(ArrayList<StudentSchedule> sList){
+    public static void displayAll(ArrayList<StudentSchedule> studentList){
         int i = 0;
         System.out.format("%-6s | %-6s | %-15s | %-10s | %-10s\n", "", "ID", "Student name", "Semester", "Course");
         // loop through every element of the list
-        for (StudentSchedule s : sList) {
+        for (StudentSchedule s : studentList) {
             i ++;
             displayItem(s, i);
         }
+    }
+
+    public static void displayUpdateMenu(){
+        System.out.println("1. Update semester.");
+        System.out.println("2. Update course.");
+        System.out.println("3. Update ID.");
+        System.out.println("4. Update name.");
     }
 }

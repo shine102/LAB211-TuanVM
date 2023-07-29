@@ -3,7 +3,9 @@ import java.util.Scanner;
 
 
 public class DataValidation {
-    int validateInt(Scanner sc, int min, int max, String msg) {
+    private static final Scanner sc = new Scanner(System.in);
+
+    int validateInt(int min, int max, String msg) {
         String input;
         int number;
         // loop to get input
@@ -30,7 +32,7 @@ public class DataValidation {
         return number;
     }
 
-    String validateString(Scanner sc, String msg, String regex) {
+    String validateString(String msg, String regex) {
         String input;
         // loop to get input
         while (true) {

@@ -1,21 +1,17 @@
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class Management {
-    private static final Scanner SCANNER = new Scanner(System.in);
     private static final DataValidation DATA_VALIDATION = new DataValidation();
     private static final Map<Integer, String> COURSE = new HashMap<>();
-    private static ArrayList<StudentSchedule> STUDENTLIST;
+    private static ArrayList<StudentSchedule> STUDENTLIST = new ArrayList<>();
 
     static{
         COURSE.put(1, "Java");
         COURSE.put(2, ".NET");
         COURSE.put(3, "C/C++");
-        STUDENTLIST = new ArrayList<>();
     }
 
     boolean checkDuplicate(int ID, String studentName, int semester, String course) {
@@ -44,15 +40,15 @@ public class Management {
             // loop to get 10 students
             for (int i = 0; i < 10; i++) {
                 System.out.println("Please enter student " + (i + 1) + " info!");
-                int ID = DATA_VALIDATION.validateInt(SCANNER, 1, Integer.MAX_VALUE, "ID: ");
+                int ID = DATA_VALIDATION.validateInt(1, Integer.MAX_VALUE, "ID: ");
                 /*
                     \\w: matches any word character 
                     \\s: matches any whitespace character
                     *: match 0 or more of the preceding token
                  */
-                String studentName = DATA_VALIDATION.validateString(SCANNER, "Student name: ", "\\w*\\s*");
-                int semester = DATA_VALIDATION.validateInt(SCANNER, 1, Integer.MAX_VALUE, "Semester: ");
-                int courseID = DATA_VALIDATION.validateInt(SCANNER, 1, 3, "Enter course id (1-Java 2-.Net 3-C/C++): ");
+                String studentName = DATA_VALIDATION.validateString("Student name: ", "\\w*\\s*");
+                int semester = DATA_VALIDATION.validateInt(1, Integer.MAX_VALUE, "Semester: ");
+                int courseID = DATA_VALIDATION.validateInt(1, 3, "Enter course id (1-Java 2-.Net 3-C/C++): ");
                 String course = COURSE.get(courseID);
                 // check if the student is duplicated or not
                 if (!checkDuplicate(ID, studentName, semester, course)) {
@@ -63,7 +59,7 @@ public class Management {
                 }
                 System.out.println("--------------------------------------------");
             }
-            String choice = DATA_VALIDATION.validateString(SCANNER, "Do you want to continue (Y/N)?", "[YNyn]");
+            String choice = DATA_VALIDATION.validateString("Do you want to continue (Y/N)?", "[YNyn]");
             // check if the value of choice equal to n
             if (choice.equalsIgnoreCase("n")) {
                 break;
@@ -73,7 +69,7 @@ public class Management {
 
     public void findSort() {
         System.out.println("==================== Find and Sort ===================");
-        String nameToSearch = DATA_VALIDATION.validateString(SCANNER, "Enter name or part of name your want to search: ", "");
+        String nameToSearch = DATA_VALIDATION.validateString("Enter name or part of name your want to search: ", "");
         ArrayList<StudentSchedule> listSearchByName = findByName(nameToSearch);
         // check if the list is not null
         if (listSearchByName != null) {
@@ -136,31 +132,26 @@ public class Management {
     public void updateDelete() {
         
         System.out.println("================= Update / Delete ==================");
-        int ID = DATA_VALIDATION.validateInt(SCANNER, 1, Integer.MAX_VALUE, "Enter student ID to find: ");
-        String choice = DATA_VALIDATION.validateString(SCANNER, "Do you want to update (U) or "
+        int ID = DATA_VALIDATION.validateInt(1, Integer.MAX_VALUE, "Enter student ID to find: ");
+        String choice = DATA_VALIDATION.validateString("Do you want to update (U) or "
                 + "delete (D) student: ", "[DUdu]");
         ArrayList<StudentSchedule> listSearchByID = findByID(ID);
         // check if the value of choice is u or U
         if (choice.equalsIgnoreCase("u")){
-            // TODO: update
-            System.out.println("Updating...");
             if (listSearchByID == null){
                 System.out.println("Can not find any student with that ID");
                 return;
             } else {
                 Display.displayAll(listSearchByID);
             }
-            int index = DATA_VALIDATION.validateInt(SCANNER, 1, listSearchByID.size(), "Choose what record to update, type number: ") - 1;
+            int index = DATA_VALIDATION.validateInt(1, listSearchByID.size(), "Choose what record to update, type number: ") - 1;
             StudentSchedule ss = listSearchByID.get(index);
-            System.out.println("1. Update semester.");
-            System.out.println("2. Update course.");
-            System.out.println("3. Update ID.");
-            System.out.println("4. Update name.");
-            int c = DATA_VALIDATION.validateInt(SCANNER, 1, 4, "Enter your choice: ");
+            Display.displayUpdateMenu();
+            int c = DATA_VALIDATION.validateInt(1, 4, "Enter your choice: ");
             
             switch(c){
                 case 1:
-                    int semester = DATA_VALIDATION.validateInt(SCANNER, 1, Integer.MAX_VALUE, "Enter new semester: ");
+                    int semester = DATA_VALIDATION.validateInt(1, Integer.MAX_VALUE, "Enter new semester: ");
                     // check if the result of function checkDuplicate is true or false 
                     if (!checkDuplicate(ss.getID(), ss.getStudentName(), semester, ss.getCourse())) {
                         ss.setSemester(semester);
@@ -169,20 +160,8 @@ public class Management {
                     }
                     break;
                 case 2:
-                    int courseID = DATA_VALIDATION.validateInt(SCANNER, 1, 3, "Enter course id (1-Java 2-.Net 3-C/C++): ");
-                    String course = "";
-                    // give course value base on value of courseID
-                    switch (courseID) {
-                        case 1:
-                            course = "Java";
-                            break;
-                        case 2:
-                            course = ".NET";
-                            break;
-                        case 3:
-                            course = "C/C++";
-                            break;
-                    }
+                    int courseID = DATA_VALIDATION.validateInt(1, 3, "Enter course id (1-Java 2-.Net 3-C/C++): ");
+                    String course = COURSE.get(courseID);
                     // check if the result of function checkDuplicate is true or false 
                     if (!checkDuplicate(ss.getID(), ss.getStudentName(), ss.getSemester(), course)) {
                         ss.setCourse(course);
@@ -191,7 +170,7 @@ public class Management {
                     }
                     break;
                 case 3:
-                    int newID = DATA_VALIDATION.validateInt(SCANNER, 1, Integer.MAX_VALUE, "Enter new ID: ");
+                    int newID = DATA_VALIDATION.validateInt(1, Integer.MAX_VALUE, "Enter new ID: ");
                     // check if there is any change in the info or not
                     
                     // check if there is any duplicate or not 
@@ -202,7 +181,7 @@ public class Management {
                     }
                     break;
                 case 4:
-                    String newName = DATA_VALIDATION.validateString(SCANNER, "Enter new name: ", "");
+                    String newName = DATA_VALIDATION.validateString("Enter new name: ", "");
                     updateName(ss.getStudentName(), newName);
                     break;
             }
@@ -255,7 +234,6 @@ public class Management {
         for (Report r : reportList){
             System.out.format("%-15s | %-10s | %-10s\n", r.getStudentName(), r.getCourse(), r.getTotalOfCourse());
         }
-        
     }
     
 }
